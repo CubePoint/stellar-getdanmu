@@ -42,7 +42,7 @@ class danmuplugin(StellarPlayer.IStellarPlayerPlugin):
             {'type':'space','height':5},
             {
                 'group':[
-                    {'type':'edit','name':'danmu_text','label':'网页地址','width':0.7},
+                    {'type':'edit','name':'danmu_text','label':'输入弹幕','width':0.7},
                     {'type':'button','name':'加载','@click':'onLoadDanmu','width':100},
                 ],
                 'width':1.0,
