@@ -1,3 +1,4 @@
+import json
 import time
 import bs4
 import requests
@@ -38,6 +39,15 @@ class danmuplugin(StellarPlayer.IStellarPlayerPlugin):
                 'width':1.0,
                 'height':30
             },
+            {'type':'space','height':5},
+            {
+                'group':[
+                    {'type':'edit','name':'danmu_text','label':'网页地址','width':0.7},
+                    {'type':'button','name':'加载','@click':'onLoadDanmu','width':100},
+                ],
+                'width':1.0,
+                'height':30
+            },
             {'type':'label','name':'desc','textColor':'#ff7f00','fontSize':15,'value':'请输入bilibili、芒果tv、爱奇艺、腾讯视频的视频页面地址','height':40},
             {'type':'label','name':'list','textColor':'#557f55','fontSize':15,'value':'爬取的弹幕列表:','height':40},
             {'type':'grid','name':'danmugrid','itemlayout':danmu_layout,'value':self.danmudata,'itemheight':30,'itemwidth':775,'height':280,'width':1.0},
@@ -72,6 +82,12 @@ class danmuplugin(StellarPlayer.IStellarPlayerPlugin):
         else:
             self.player and self.player.toast('main','不支持的网站')
 
+    def onLoadDanmu(self, *args):
+        danmu_text = self.player.getControlValue('main','danmu_text')
+        danmu_list = json.loads(danmu_text)
+        self.player.batchAddDanmu(danmu_list)
+        self.player.showDanmu(True)
+    
     def onDanmuClick(self, page, listControl, item, itemControl):
         print(item)
         print(len(self.danmudata))
