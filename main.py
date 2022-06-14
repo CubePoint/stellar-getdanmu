@@ -11,6 +11,7 @@ from . import qq_danmu
 from . import youku_danmu
 from . import mgtv_danmu
 from . import bilibili_danmu
+from . import file_danmu
 
 class danmuplugin(StellarPlayer.IStellarPlayerPlugin):
     def __init__(self,player:StellarPlayer.IStellarPlayer):
@@ -43,7 +44,16 @@ class danmuplugin(StellarPlayer.IStellarPlayerPlugin):
             {
                 'group':[
                     {'type':'edit','name':'danmu_text','label':'输入弹幕','width':0.7},
-                    {'type':'button','name':'加载','@click':'onLoadDanmu','width':100},
+                    {'type':'button','name':'加载','@click':'onLoadDanmuText','width':100},
+                ],
+                'width':1.0,
+                'height':30
+            },
+            {'type':'space','height':5},
+            {
+                'group':[
+                    {'type':'edit','name':'danmu_file','label':'文件地址','width':0.7},
+                    {'type':'button','name':'加载','@click':'onLoadDanmuFile','width':100},
                 ],
                 'width':1.0,
                 'height':30
@@ -82,11 +92,24 @@ class danmuplugin(StellarPlayer.IStellarPlayerPlugin):
         else:
             self.player and self.player.toast('main','不支持的网站')
 
-    def onLoadDanmu(self, *args):
+    def onLoadDanmuText(self, *args):
         danmu_text = self.player.getControlValue('main','danmu_text')
         danmu_list = json.loads(danmu_text)
         self.player.batchAddDanmu(danmu_list)
         self.player.showDanmu(True)
+
+    def onLoadDanmuFile(self, *args):
+        url = self.player.getControlValue('main','danmu_file')
+        danmu = None
+        self.danmudata = []
+        danmu = file_danmu.file_danmu(url)
+        if danmu:
+            self.loading()
+            self.danmudata = danmu.get_danmu_by_url()
+            self.loading(True)
+            self.player.updateControlValue('main','danmugrid',self.danmudata)
+        else:
+            self.player and self.player.toast('main','不支持的网站')
     
     def onDanmuClick(self, page, listControl, item, itemControl):
         print(item)
