@@ -16,7 +16,6 @@ class file_danmu():
         danmudata = []
         jsonlist = []
         self.get_danmu(jsonlist)
-        random.shuffle(jsonlist)
         jsonout = {'danmu_type':'file','danmu':jsonlist}
         danmudata.append({'title':self.medianame,'data':jsonout})
         return danmudata
