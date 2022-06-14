@@ -25,7 +25,7 @@ class file_danmu():
         if res.status_code == 200:
             jsondata = json.loads(res.text, strict=False)
             for item in jsondata:
-                newitem = {'tp':item['tp'],'msg':item['msg']}
+                newitem = {'tp':int(item['tp']),'msg':item['msg']}
                 jsonlist.append(newitem)
             
 
