@@ -14,14 +14,8 @@ class file_danmu():
     
     def get_danmu_by_url(self):
         danmudata = []
-        self.get_vid()
-        if self.vid == '':
-            return danmudata
-        tid = self.get_tid()
-        if tid == '':
-            return danmudata
         jsonlist = []
-        self.get_danmu(tid,jsonlist)
+        self.get_danmu(jsonlist)
         random.shuffle(jsonlist)
         jsonout = {'danmu_type':'file','danmu':jsonlist}
         danmudata.append({'title':self.medianame,'data':jsonout})
@@ -38,5 +32,5 @@ class file_danmu():
 
 if __name__ == '__main__':
     r = input('请输入文件网页地址：\n')
-    dm = qq_danmu(r)
+    dm = file_danmu(r)
     dm.get_danmu_by_url('f:\\py')
